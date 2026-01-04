@@ -1,9 +1,11 @@
 package com.williamsilva.algashop.billing.domain.model.invoice;
 
 import com.williamsilva.algashop.billing.domain.model.FieldValidations;
+import jakarta.persistence.Embeddable;
 
 import java.util.Objects;
 
+@Embeddable
 public class Address {
 
     private String street;

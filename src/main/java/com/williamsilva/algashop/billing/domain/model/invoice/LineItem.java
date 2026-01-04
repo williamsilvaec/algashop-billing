@@ -1,10 +1,12 @@
 package com.williamsilva.algashop.billing.domain.model.invoice;
 
 import com.williamsilva.algashop.billing.domain.model.FieldValidations;
+import jakarta.persistence.Embeddable;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Embeddable
 public class LineItem {
 
     private Integer number;

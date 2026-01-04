@@ -1,14 +1,18 @@
 package com.williamsilva.algashop.billing.domain.model.creditcard;
 
 import com.williamsilva.algashop.billing.domain.model.IdGenerator;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
 public class CreditCard {
 
+    @Id
     private UUID id;
     private OffsetDateTime createdAt;
     private UUID customerId;

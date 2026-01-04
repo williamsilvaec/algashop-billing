@@ -1,15 +1,20 @@
 package com.williamsilva.algashop.billing.domain.model.invoice;
 
 import com.williamsilva.algashop.billing.domain.model.FieldValidations;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 
 import java.util.Objects;
 
+@Embeddable
 public class Payer {
 
     private String fullName;
     private String document;
     private String phone;
     private String email;
+
+    @Embedded
     private Address address;
 
     protected Payer() {

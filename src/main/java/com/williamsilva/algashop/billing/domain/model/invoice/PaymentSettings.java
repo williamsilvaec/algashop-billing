@@ -2,17 +2,29 @@ package com.williamsilva.algashop.billing.domain.model.invoice;
 
 import com.williamsilva.algashop.billing.domain.model.DomainException;
 import com.williamsilva.algashop.billing.domain.model.IdGenerator;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
 public class PaymentSettings {
 
+    @Id
     private UUID id;
     private UUID creditCardId;
     private String gatewayCode;
+
+    @Enumerated(EnumType.STRING)
     private PaymentMethod method;
+
+    @OneToOne(mappedBy = "paymentSettings")
+    private Invoice invoice;
 
     protected PaymentSettings() {
     }
@@ -79,6 +91,14 @@ public class PaymentSettings {
 
     private void setMethod(PaymentMethod method) {
         this.method = method;
+    }
+
+    private Invoice getInvoice() {
+        return invoice;
+    }
+
+    protected void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 
     @Override

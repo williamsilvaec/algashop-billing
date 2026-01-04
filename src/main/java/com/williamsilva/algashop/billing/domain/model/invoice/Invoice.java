@@ -2,6 +2,17 @@ package com.williamsilva.algashop.billing.domain.model.invoice;
 
 import com.williamsilva.algashop.billing.domain.model.DomainException;
 import com.williamsilva.algashop.billing.domain.model.IdGenerator;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -12,8 +23,10 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+@Entity
 public class Invoice {
 
+    @Id
     private UUID id;
     private String orderId;
     private UUID customerId;
@@ -22,10 +35,20 @@ public class Invoice {
     private OffsetDateTime canceledAt;
     private OffsetDateTime expiresAt;
     private BigDecimal totalAmount;
+
+    @Enumerated(EnumType.STRING)
     private InvoiceStatus status;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private PaymentSettings paymentSettings;
+
+    @Embedded
     private Payer payer;
+
     private String cancelReason;
+
+    @ElementCollection
+    @CollectionTable(name = "invoice_line_item", joinColumns = @JoinColumn(name = "invoice_id"))
     private Set<LineItem> items = new HashSet<>();
 
     protected Invoice() {
@@ -130,6 +153,7 @@ public class Invoice {
                     this.getId(), this.getStatus().toString().toLowerCase()));
         }
         PaymentSettings paymentSettings = PaymentSettings.brandNew(method, creditCardId);
+        paymentSettings.setInvoice(this);
         this.setPaymentSettings(paymentSettings);
     }
 
