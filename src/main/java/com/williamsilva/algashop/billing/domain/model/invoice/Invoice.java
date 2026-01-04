@@ -2,12 +2,6 @@ package com.williamsilva.algashop.billing.domain.model.invoice;
 
 import com.williamsilva.algashop.billing.domain.model.DomainException;
 import com.williamsilva.algashop.billing.domain.model.IdGenerator;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -18,34 +12,43 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-@Setter(AccessLevel.PRIVATE)
-@Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Invoice {
 
-    @EqualsAndHashCode.Include
     private UUID id;
     private String orderId;
     private UUID customerId;
-
     private OffsetDateTime issuedAt;
     private OffsetDateTime paidAt;
     private OffsetDateTime canceledAt;
     private OffsetDateTime expiresAt;
-
     private BigDecimal totalAmount;
-
     private InvoiceStatus status;
-
     private PaymentSettings paymentSettings;
-
+    private Payer payer;
+    private String cancelReason;
     private Set<LineItem> items = new HashSet<>();
 
-    private Payer payer;
+    protected Invoice() {
+    }
 
-    private String cancelReason;
+    protected Invoice(UUID id, String orderId, UUID customerId, OffsetDateTime issuedAt,
+                      OffsetDateTime paidAt, OffsetDateTime canceledAt, OffsetDateTime expiresAt,
+                      BigDecimal totalAmount, InvoiceStatus status, PaymentSettings paymentSettings,
+                      Set<LineItem> items, Payer payer, String cancelReason) {
+        this.id = id;
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.issuedAt = issuedAt;
+        this.paidAt = paidAt;
+        this.canceledAt = canceledAt;
+        this.expiresAt = expiresAt;
+        this.totalAmount = totalAmount;
+        this.status = status;
+        this.paymentSettings = paymentSettings;
+        this.items = items != null ? items : new HashSet<>();
+        this.payer = payer;
+        this.cancelReason = cancelReason;
+    }
 
     public static Invoice issue(String orderId,
                                 UUID customerId,
@@ -81,10 +84,6 @@ public class Invoice {
                 payer,
                 null
         );
-    }
-
-    public Set<LineItem> getItems() {
-        return Collections.unmodifiableSet(this.items);
     }
 
     public boolean isCanceled() {
@@ -132,5 +131,124 @@ public class Invoice {
         }
         PaymentSettings paymentSettings = PaymentSettings.brandNew(method, creditCardId);
         this.setPaymentSettings(paymentSettings);
+    }
+
+
+
+    public UUID getId() {
+        return id;
+    }
+
+    private void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    private void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    private void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
+    }
+
+    public OffsetDateTime getIssuedAt() {
+        return issuedAt;
+    }
+
+    private void setIssuedAt(OffsetDateTime issuedAt) {
+        this.issuedAt = issuedAt;
+    }
+
+    public OffsetDateTime getPaidAt() {
+        return paidAt;
+    }
+
+    private void setPaidAt(OffsetDateTime paidAt) {
+        this.paidAt = paidAt;
+    }
+
+    public OffsetDateTime getCanceledAt() {
+        return canceledAt;
+    }
+
+    private void setCanceledAt(OffsetDateTime canceledAt) {
+        this.canceledAt = canceledAt;
+    }
+
+    public OffsetDateTime getExpiresAt() {
+        return expiresAt;
+    }
+
+    private void setExpiresAt(OffsetDateTime expiresAt) {
+        this.expiresAt = expiresAt;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    private void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public InvoiceStatus getStatus() {
+        return status;
+    }
+
+    private void setStatus(InvoiceStatus status) {
+        this.status = status;
+    }
+
+    public PaymentSettings getPaymentSettings() {
+        return paymentSettings;
+    }
+
+    private void setPaymentSettings(PaymentSettings paymentSettings) {
+        this.paymentSettings = paymentSettings;
+    }
+
+    public Set<LineItem> getItems() {
+        return Collections.unmodifiableSet(this.items);
+    }
+
+    private void setItems(Set<LineItem> items) {
+        this.items = items;
+    }
+
+    public Payer getPayer() {
+        return payer;
+    }
+
+    private void setPayer(Payer payer) {
+        this.payer = payer;
+    }
+
+    public String getCancelReason() {
+        return cancelReason;
+    }
+
+    private void setCancelReason(String cancelReason) {
+        this.cancelReason = cancelReason;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Invoice invoice = (Invoice) o;
+        return Objects.equals(id, invoice.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
