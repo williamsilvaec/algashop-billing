@@ -8,11 +8,11 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class InvoincingService {
+public class InvoicingService {
 
     private final InvoiceRepository invoiceRepository;
 
-    public InvoincingService(InvoiceRepository invoiceRepository) {
+    public InvoicingService(InvoiceRepository invoiceRepository) {
         this.invoiceRepository = invoiceRepository;
     }
 
