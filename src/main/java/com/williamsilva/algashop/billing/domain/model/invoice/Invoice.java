@@ -1,5 +1,6 @@
 package com.williamsilva.algashop.billing.domain.model.invoice;
 
+import com.williamsilva.algashop.billing.domain.model.AbstractAuditableEntity;
 import com.williamsilva.algashop.billing.domain.model.DomainException;
 import com.williamsilva.algashop.billing.domain.model.IdGenerator;
 import jakarta.persistence.CascadeType;
@@ -24,7 +25,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-public class Invoice {
+public class Invoice extends AbstractAuditableEntity {
 
     @Id
     private UUID id;
