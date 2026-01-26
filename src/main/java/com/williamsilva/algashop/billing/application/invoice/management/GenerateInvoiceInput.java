@@ -1,6 +1,6 @@
 package com.williamsilva.algashop.billing.application.invoice.management;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 public class GenerateInvoiceInput {
@@ -9,7 +9,7 @@ public class GenerateInvoiceInput {
     private UUID customerId;
     private PaymentSettingsInput paymentSettings;
     private PayerData payer;
-    private Set<LineItemInput> items;
+    private List<LineItemInput> items;
 
     public GenerateInvoiceInput() {
     }
@@ -19,7 +19,7 @@ public class GenerateInvoiceInput {
             UUID customerId,
             PaymentSettingsInput paymentSettings,
             PayerData payer,
-            Set<LineItemInput> items
+            List<LineItemInput> items
     ) {
         this.orderId = orderId;
         this.customerId = customerId;
@@ -60,11 +60,11 @@ public class GenerateInvoiceInput {
         this.payer = payer;
     }
 
-    public Set<LineItemInput> getItems() {
+    public List<LineItemInput> getItems() {
         return items;
     }
 
-    public void setItems(Set<LineItemInput> items) {
+    public void setItems(List<LineItemInput> items) {
         this.items = items;
     }
 
@@ -73,11 +73,12 @@ public class GenerateInvoiceInput {
     }
 
     public static class GenerateInvoiceInputBuilder {
+
         private String orderId;
         private UUID customerId;
         private PaymentSettingsInput paymentSettings;
         private PayerData payer;
-        private Set<LineItemInput> items;
+        private List<LineItemInput> items;
 
         public GenerateInvoiceInputBuilder orderId(String orderId) {
             this.orderId = orderId;
@@ -99,7 +100,7 @@ public class GenerateInvoiceInput {
             return this;
         }
 
-        public GenerateInvoiceInputBuilder items(Set<LineItemInput> items) {
+        public GenerateInvoiceInputBuilder items(List<LineItemInput> items) {
             this.items = items;
             return this;
         }
