@@ -3,13 +3,23 @@ package com.williamsilva.algashop.billing.infrastructure.creditcard.fastpay;
 import com.williamsilva.algashop.billing.domain.model.creditcard.LimitedCreditCard;
 import com.williamsilva.algashop.billing.infrastructure.AbstractFastpayIT;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Optional;
-
 @SpringBootTest
 class CreditCardProviderServiceFastpayImplIT extends AbstractFastpayIT {
+
+    @BeforeAll
+    public static void beforeAll() {
+        startWireMock();
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        stopWireMock();
+    }
 
     @Test
     public void shouldRegisterCreditCard() {
