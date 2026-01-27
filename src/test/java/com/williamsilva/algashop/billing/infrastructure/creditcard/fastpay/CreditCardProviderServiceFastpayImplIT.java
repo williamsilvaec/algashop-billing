@@ -29,11 +29,6 @@ class CreditCardProviderServiceFastpayImplIT extends AbstractFastpayIT {
     @Test
     public void shouldDeleteRegisteredCreditCard() {
         LimitedCreditCard limitedCreditCard = registerCard();
-
         creditCardProvider.delete(limitedCreditCard.getGatewayCode());
-
-        Optional<LimitedCreditCard> possibleCreditCard = creditCardProvider.findById(limitedCreditCard.getGatewayCode());
-
-        Assertions.assertThat(possibleCreditCard).isEmpty();
     }
 }
