@@ -1,12 +1,63 @@
 package com.williamsilva.algashop.billing.application.invoice.management;
 
-public record PayerData(
-        String fullName,
-        String document,
-        String email,
-        String phone,
-        AddressData address
-) {
+public class PayerData {
+
+    private String fullName;
+    private String document;
+    private String email;
+    private String phone;
+    private AddressData address;
+
+    public PayerData() {
+    }
+
+    private PayerData(PayerDataBuilder builder) {
+        this.fullName = builder.fullName;
+        this.document = builder.document;
+        this.email = builder.email;
+        this.phone = builder.phone;
+        this.address = builder.address;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public AddressData getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressData address) {
+        this.address = address;
+    }
 
     public static PayerDataBuilder builder() {
         return new PayerDataBuilder();
@@ -45,7 +96,7 @@ public record PayerData(
         }
 
         public PayerData build() {
-            return new PayerData(fullName, document, email, phone, address);
+            return new PayerData(this);
         }
     }
 }

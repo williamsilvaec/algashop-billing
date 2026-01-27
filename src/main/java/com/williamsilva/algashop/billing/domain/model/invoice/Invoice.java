@@ -3,6 +3,7 @@ package com.williamsilva.algashop.billing.domain.model.invoice;
 import com.williamsilva.algashop.billing.domain.model.AbstractAuditableAggregateRoot;
 import com.williamsilva.algashop.billing.domain.model.DomainException;
 import com.williamsilva.algashop.billing.domain.model.IdGenerator;
+import com.williamsilva.algashop.billing.domain.model.invoice.payment.PaymentStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
@@ -165,6 +166,13 @@ public class Invoice extends AbstractAuditableAggregateRoot<Invoice> {
         this.setPaymentSettings(paymentSettings);
     }
 
+    public void updatePaymentStatus(PaymentStatus status) {
+        switch (status) {
+            case FAILED -> cancel("Payment failed");
+            case REFUNDED -> cancel("Payment refunded");
+            case PAID -> markAsPaid();
+        }
+    }
 
 
     public UUID getId() {

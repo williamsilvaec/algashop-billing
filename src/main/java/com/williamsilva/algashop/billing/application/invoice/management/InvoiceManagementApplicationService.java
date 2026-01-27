@@ -12,6 +12,7 @@ import com.williamsilva.algashop.billing.domain.model.invoice.Payer;
 import com.williamsilva.algashop.billing.domain.model.invoice.payment.Payment;
 import com.williamsilva.algashop.billing.domain.model.invoice.payment.PaymentGatewayService;
 import com.williamsilva.algashop.billing.domain.model.invoice.payment.PaymentRequest;
+import com.williamsilva.algashop.billing.domain.model.invoice.payment.PaymentStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -103,21 +104,21 @@ public class InvoiceManagementApplicationService {
     }
 
     private Payer convertToPayer(PayerData payerData) {
-        AddressData addressData = payerData.address();
+        AddressData addressData = payerData.getAddress();
 
         return Payer.builder()
-                .fullName(payerData.fullName())
-                .email(payerData.email())
-                .document(payerData.document())
-                .phone(payerData.phone())
+                .fullName(payerData.getFullName())
+                .email(payerData.getEmail())
+                .document(payerData.getDocument())
+                .phone(payerData.getPhone())
                 .address(Address.builder()
-                        .city(addressData.city())
-                        .state(addressData.state())
-                        .neighborhood(addressData.neighborhood())
-                        .complement(addressData.complement())
-                        .zipCode(addressData.zipCode())
-                        .street(addressData.street())
-                        .number(addressData.number())
+                        .city(addressData.getCity())
+                        .state(addressData.getState())
+                        .neighborhood(addressData.getNeighborhood())
+                        .complement(addressData.getComplement())
+                        .zipCode(addressData.getZipCode())
+                        .street(addressData.getStreet())
+                        .number(addressData.getNumber())
                         .build())
                 .build();
     }
@@ -126,5 +127,12 @@ public class InvoiceManagementApplicationService {
         if (creditCardId != null && !creditCardRepository.existsById(creditCardId)) {
             throw new CreditCardNotFoundException();
         }
+    }
+
+    @Transactional
+    public void updatePaymentStatus(UUID invoiceId, PaymentStatus paymentStatus) {
+        Invoice invoice = invoiceRepository.findById(invoiceId).orElseThrow(InvoiceNotFoundException::new);
+        invoice.updatePaymentStatus(paymentStatus);
+        invoiceRepository.saveAndFlush(invoice);
     }
 }

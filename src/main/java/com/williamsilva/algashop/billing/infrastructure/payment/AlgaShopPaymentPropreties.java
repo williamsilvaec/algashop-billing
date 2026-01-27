@@ -47,6 +47,9 @@ public class AlgaShopPaymentPropreties {
         @NotBlank
         private String privateToken;
 
+        @NotBlank
+        private String webhookUrl;
+
         public String getHostname() {
             return hostname;
         }
@@ -61,6 +64,14 @@ public class AlgaShopPaymentPropreties {
 
         public void setPrivateToken(String privateToken) {
             this.privateToken = privateToken;
+        }
+
+        public String getWebhookUrl() {
+            return webhookUrl;
+        }
+
+        public void setWebhookUrl(String webhookUrl) {
+            this.webhookUrl = webhookUrl;
         }
     }
 }
