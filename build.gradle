@@ -1,3 +1,10 @@
+buildscript {
+	dependencies {
+		classpath 'org.flywaydb:flyway-core:11.13.0'
+		classpath 'org.flywaydb:flyway-database-postgresql:11.13.0'
+	}
+}
+
 plugins {
 	id 'idea'
 	id 'java'
@@ -35,7 +42,9 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3:3.18.0'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-database-postgresql'
 
 	testImplementation 'org.assertj:assertj-core:3.27.3'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
